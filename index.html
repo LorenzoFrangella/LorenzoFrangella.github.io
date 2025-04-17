@@ -1,11 +1,650 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Engineer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom CSS for animations and effects */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+        
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        .delay-4 { animation-delay: 0.8s; }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .section-divider {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #3b82f6, #10b981, transparent);
+            margin: 4rem 0;
+        }
+    </style>
 </head>
-<body>
-  <h1>Hello World</h1>
+<body class="bg-gray-50 font-sans antialiased">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold gradient-text">IoT Portfolio</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#about" class="text-gray-700 hover:text-blue-600 transition">About</a>
+                    <a href="#education" class="text-gray-700 hover:text-blue-600 transition">Education</a>
+                    <a href="#projects" class="text-gray-700 hover:text-blue-600 transition">Projects</a>
+                    <a href="#publications" class="text-gray-700 hover:text-blue-600 transition">Publications</a>
+                    <a href="#contact" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">Contact</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="menu-toggle" class="text-gray-700">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white pb-4 px-4 shadow-lg">
+            <a href="#about" class="block py-2 text-gray-700 hover:text-blue-600 transition">About</a>
+            <a href="#education" class="block py-2 text-gray-700 hover:text-blue-600 transition">Education</a>
+            <a href="#projects" class="block py-2 text-gray-700 hover:text-blue-600 transition">Projects</a>
+            <a href="#publications" class="block py-2 text-gray-700 hover:text-blue-600 transition">Publications</a>
+            <a href="#contact" class="block mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition text-center">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-r from-blue-50 to-green-50 py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0 fade-in">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+                    Hi, I'm <span class="gradient-text">[Lorenzo]</span>
+                </h1>
+                <h2 class="text-2xl md:text-3xl text-gray-600 mb-6">
+                    Computer Science Engineer & IoT Specialist
+                </h2>
+                <p class="text-gray-600 mb-8 text-lg">
+                    Passionate about creating innovative IoT solutions that bridge the physical and digital worlds.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#projects" class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition">
+                        View My Work
+                    </a>
+                    <a href="#contact" class="border border-blue-600 text-blue-600 px-6 py-3 rounded-md hover:bg-blue-50 transition">
+                        Contact Me
+                    </a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center fade-in delay-1">
+                <div class="relative">
+                    <div class="w-64 h-64 md:w-80 md:h-80 bg-blue-100 rounded-full overflow-hidden shadow-xl">
+                        <!-- Replace with your image -->
+                        <img src="https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                             alt="Profile" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">About Me</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-green-500 mx-auto"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in delay-1">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Who I Am</h3>
+                    <p class="text-gray-600 mb-6">
+                        I'm a Computer Science Engineering graduate with a passion for Internet of Things (IoT) technologies. 
+                        My journey in tech began with a curiosity about how devices communicate and has evolved into 
+                        expertise in designing and implementing IoT solutions.
+                    </p>
+                    <p class="text-gray-600 mb-6">
+                        I specialize in creating smart systems that collect, process, and analyze data from physical devices 
+                        to enable intelligent decision-making and automation.
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">IoT Development</span>
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Embedded Systems</span>
+                        <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Cloud Computing</span>
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Data Analysis</span>
+                    </div>
+                </div>
+                
+                <div class="fade-in delay-2">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">My Skills</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-700">IoT Platforms (Arduino, Raspberry Pi)</span>
+                                <span class="text-gray-700">90%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-700">Programming (Python, C++)</span>
+                                <span class="text-gray-700">85%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-green-600 h-2.5 rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-700">Cloud Services (AWS IoT, Azure)</span>
+                                <span class="text-gray-700">80%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-purple-600 h-2.5 rounded-full" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-700">Data Analysis & Visualization</span>
+                                <span class="text-gray-700">75%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Education</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-green-500 mx-auto"></div>
+            </div>
+            
+            <div class="max-w-3xl mx-auto fade-in delay-1">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8 card-hover transition duration-300">
+                    <div class="md:flex">
+                        <div class="md:flex-shrink-0 bg-blue-600 md:w-48 flex items-center justify-center p-6">
+                            <i class="fas fa-graduation-cap text-white text-5xl"></i>
+                        </div>
+                        <div class="p-8">
+                            <div class="uppercase tracking-wide text-sm text-blue-600 font-semibold">2018 - 2022</div>
+                            <h3 class="mt-2 text-xl font-semibold text-gray-800">Bachelor of Engineering in Computer Science</h3>
+                            <p class="mt-2 text-gray-600">[Your University Name], [City, Country]</p>
+                            <div class="mt-4">
+                                <span class="text-sm font-medium text-gray-500">GPA: 3.8/4.0</span>
+                            </div>
+                            <div class="mt-4">
+                                <h4 class="text-sm font-semibold text-gray-700 mb-2">Relevant Coursework:</h4>
+                                <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
+                                    <li>Internet of Things and Applications</li>
+                                    <li>Embedded Systems Design</li>
+                                    <li>Wireless Sensor Networks</li>
+                                    <li>Cloud Computing</li>
+                                    <li>Data Structures and Algorithms</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition duration-300">
+                    <div class="md:flex">
+                        <div class="md:flex-shrink-0 bg-green-600 md:w-48 flex items-center justify-center p-6">
+                            <i class="fas fa-certificate text-white text-5xl"></i>
+                        </div>
+                        <div class="p-8">
+                            <div class="uppercase tracking-wide text-sm text-green-600 font-semibold">2021</div>
+                            <h3 class="mt-2 text-xl font-semibold text-gray-800">Certified IoT Specialist</h3>
+                            <p class="mt-2 text-gray-600">[Certification Body], Online</p>
+                            <div class="mt-4">
+                                <p class="text-gray-600">
+                                    Completed advanced training in IoT architecture, protocols, and security best practices.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">My Projects</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-green-500 mx-auto"></div>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
+                    Here are some of my notable IoT projects that demonstrate my skills and creativity.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition duration-300 fade-in delay-1">
+                    <div class="h-48 bg-gradient-to-r from-blue-400 to-blue-600 flex items-center justify-center">
+                        <i class="fas fa-home text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-2">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">IoT</span>
+                            <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded ml-2">Automation</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Smart Home Automation System</h3>
+                        <p class="text-gray-600 mb-4">
+                            A comprehensive IoT solution for home automation with remote control via mobile app and energy usage analytics.
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <div class="flex space-x-2">
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded">Arduino</span>
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded">Node.js</span>
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded">MQTT</span>
+                            </div>
+                            <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Details →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition duration-300 fade-in delay-2">
+                    <div class="h-48 bg-gradient-to-r from-green-400 to-green-600 flex items-center justify-center">
+                        <i class="fas fa-heartbeat text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-2">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">Healthcare</span>
+                            <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded ml-2">Wearable</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Remote Patient Monitoring System</h3>
+                        <p class="text-gray-600 mb-4">
+                            A wearable IoT device that monitors vital signs and alerts healthcare providers in case of abnormalities.
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <div class="flex space-x-2">
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded">ESP32</span>
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded">Python</span>
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded">Bluetooth</span>
+                            </div>
+                            <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Details →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition duration-300 fade-in delay-3">
+                    <div class="h-48 bg-gradient-to-r from-purple-400 to-purple-600 flex items-center justify-center">
+                        <i class="fas fa-leaf text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-2">
+                            <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">Agriculture</span>
+                            <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded ml-2">Sensors</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Smart Irrigation System</h3>
+                        <p class="text-gray-600 mb-4">
+                            An IoT-based solution that monitors soil moisture and weather conditions to optimize water usage in agriculture.
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <div class="flex space-x-2">
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded">Raspberry Pi</span>
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded">AWS IoT</span>
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded">LoRaWAN</span>
+                            </div>
+                            <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Details →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 fade-in delay-4">
+                <a href="#" class="inline-flex items-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                    View All Projects
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Publications Section -->
+    <section id="publications" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Publications</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-green-500 mx-auto"></div>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
+                    My research contributions in the field of IoT and related technologies.
+                </p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto space-y-8">
+                <!-- Publication 1 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden p-6 card-hover transition duration-300 fade-in delay-1">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-blue-100 p-3 rounded-lg">
+                            <i class="fas fa-file-alt text-blue-600 text-2xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-semibold text-gray-800">
+                                "Optimizing Energy Consumption in IoT Networks Using Machine Learning"
+                            </h3>
+                            <div class="mt-1 text-sm text-gray-500">
+                                <span class="font-medium">IEEE Internet of Things Journal</span> • June 2022
+                            </div>
+                            <p class="mt-2 text-gray-600">
+                                This paper presents a novel machine learning approach to optimize energy consumption in large-scale IoT networks, 
+                                extending battery life by up to 40% without compromising data collection quality.
+                            </p>
+                            <div class="mt-4">
+                                <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center">
+                                    <i class="fas fa-external-link-alt mr-1"></i> Read Paper
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Publication 2 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden p-6 card-hover transition duration-300 fade-in delay-2">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-green-100 p-3 rounded-lg">
+                            <i class="fas fa-file-alt text-green-600 text-2xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-semibold text-gray-800">
+                                "Security Framework for Edge Computing in IoT Environments"
+                            </h3>
+                            <div class="mt-1 text-sm text-gray-500">
+                                <span class="font-medium">ACM Transactions on Internet Technology</span> • March 2021
+                            </div>
+                            <p class="mt-2 text-gray-600">
+                                Proposed a comprehensive security framework addressing vulnerabilities in edge computing implementations 
+                                for IoT, with experimental validation showing 98% attack detection rate.
+                            </p>
+                            <div class="mt-4">
+                                <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center">
+                                    <i class="fas fa-external-link-alt mr-1"></i> Read Paper
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Publication 3 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden p-6 card-hover transition duration-300 fade-in delay-3">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-purple-100 p-3 rounded-lg">
+                            <i class="fas fa-file-alt text-purple-600 text-2xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-semibold text-gray-800">
+                                "Low-Cost Sensor Networks for Urban Air Quality Monitoring"
+                            </h3>
+                            <div class="mt-1 text-sm text-gray-500">
+                                <span class="font-medium">Journal of Environmental Informatics</span> • November 2020
+                            </div>
+                            <p class="mt-2 text-gray-600">
+                                Developed and deployed a network of low-cost IoT sensors for real-time air quality monitoring, 
+                                achieving 92% accuracy compared to professional-grade equipment at 1/10th the cost.
+                            </p>
+                            <div class="mt-4">
+                                <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center">
+                                    <i class="fas fa-external-link-alt mr-1"></i> Read Paper
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 fade-in delay-4">
+                <a href="#" class="inline-flex items-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                    View All Publications
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gradient-to-r from-blue-600 to-green-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl font-bold text-white mb-4">Get In Touch</h2>
+                <div class="w-20 h-1 bg-white mx-auto"></div>
+                <p class="mt-4 text-blue-100 max-w-2xl mx-auto">
+                    Interested in collaborating or learning more about my work? Feel free to reach out!
+                </p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
+                <div class="fade-in delay-1">
+                    <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl p-8 shadow-lg">
+                        <h3 class="text-xl font-semibold text-white mb-6">Contact Information</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 bg-white bg-opacity-20 p-2 rounded-lg">
+                                    <i class="fas fa-envelope text-white"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-sm font-medium text-blue-100">Email</h4>
+                                    <p class="mt-1 text-white">your.email@example.com</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 bg-white bg-opacity-20 p-2 rounded-lg">
+                                    <i class="fas fa-phone-alt text-white"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-sm font-medium text-blue-100">Phone</h4>
+                                    <p class="mt-1 text-white">+1 (123) 456-7890</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 bg-white bg-opacity-20 p-2 rounded-lg">
+                                    <i class="fas fa-map-marker-alt text-white"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-sm font-medium text-blue-100">Location</h4>
+                                    <p class="mt-1 text-white">[Your City], [Your Country]</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <h4 class="text-sm font-medium text-blue-100 mb-4">Connect with me</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="bg-white bg-opacity-20 hover:bg-opacity-30 p-3 rounded-full transition">
+                                    <i class="fab fa-linkedin-in text-white"></i>
+                                </a>
+                                <a href="#" class="bg-white bg-opacity-20 hover:bg-opacity-30 p-3 rounded-full transition">
+                                    <i class="fab fa-github text-white"></i>
+                                </a>
+                                <a href="#" class="bg-white bg-opacity-20 hover:bg-opacity-30 p-3 rounded-full transition">
+                                    <i class="fab fa-twitter text-white"></i>
+                                </a>
+                                <a href="#" class="bg-white bg-opacity-20 hover:bg-opacity-30 p-3 rounded-full transition">
+                                    <i class="fab fa-researchgate text-white"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fade-in delay-2">
+                    <div class="bg-white rounded-xl shadow-lg p-8">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-6">Send me a message</h3>
+                        <form>
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                                    <input type="text" id="name" name="name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                    <input type="email" id="email" name="email" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                
+                                <div>
+                                    <label for="subject" class="block text-sm font-medium text-gray-700">Subject</label>
+                                    <input type="text" id="subject" name="subject" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                
+                                <div>
+                                    <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                                    <textarea id="message" name="message" rows="4" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                </div>
+                                
+                                <div class="pt-2">
+                                    <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                        Send Message
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <span class="text-xl font-bold gradient-text">IoT Portfolio</span>
+                    <p class="mt-2 text-gray-400">Bridging the physical and digital worlds through IoT innovation.</p>
+                </div>
+                
+                <div class="flex flex-col items-center md:items-end">
+                    <div class="flex space-x-6 mb-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-researchgate"></i>
+                        </a>
+                    </div>
+                    <p class="text-gray-400 text-sm">© 2025 [Lorenzo Frangella]. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-blue-600 text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Back to top button
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.remove('opacity-100', 'visible');
+                backToTopButton.classList.add('opacity-0', 'invisible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+
+        // Add fade-in class to elements when they come into view
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const fadeInObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fadeIn');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        fadeElements.forEach(element => {
+            fadeInObserver.observe(element);
+        });
+    </script>
 </body>
 </html>
