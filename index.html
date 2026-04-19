@@ -14,34 +14,30 @@
     :root {
       --sage:        #a8bcab;
       --sage-dark:   #8fa992;
-      --sage-shadow: #7a9680;
-      --sage-light:  #c4d4c6;
-      --sage-mid:    #9eb0a1;
       --bronze:      #b08a6e;
       --bronze-dark: #8a6650;
       --bronze-light:#c9a882;
       --cream:       #f5f0e8;
       --ink:         #3a3028;
+      --fold:        rgba(0,0,0,.13);
     }
 
     html, body { height: 100%; overflow: hidden; }
 
     body {
-      background: var(--sage-dark);
+      background: #ffffff;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       font-family: 'Cormorant Garamond', serif;
-      background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
     }
 
     /* ─── HINT ─────────────────────────────────────────────── */
     .hint {
       position: fixed; bottom: 2.2rem;
       font-family: 'Cinzel', serif; font-size: .72rem;
-      letter-spacing: .22em; color: rgba(255,255,255,.45);
+      letter-spacing: .22em; color: rgba(0,0,0,.35);
       text-transform: uppercase;
       animation: breathe 3s ease-in-out infinite;
       pointer-events: none; z-index: 5; transition: opacity .5s;
@@ -74,18 +70,17 @@
     }
 
     /* ─── BASE RECTANGLE ────────────────────────────────────── */
-    /* Provides the background colour and the drop shadow        */
     .env-base {
       position: absolute; inset: 0;
       background: var(--sage);
       border-radius: 4px;
       box-shadow:
-        0 30px 80px rgba(0,0,0,.28),
-        0  6px 20px rgba(0,0,0,.18);
+        0 30px 80px rgba(0,0,0,.18),
+        0  6px 20px rgba(0,0,0,.12);
       z-index: 1;
     }
 
-    /* ─── SHARED TRIANGLE BASE ─────────────────────────────── */
+    /* ─── SHARED TRIANGLE ──────────────────────────────────── */
     .tri {
       position: absolute; inset: 0;
       pointer-events: none;
@@ -96,20 +91,16 @@
     }
 
     /*
-     * ┌─────────────────────────────────────────┐
-     * │  Z-INDEX MAP                            │
-     * │  z:1  env-base  (bg + shadow)           │
-     * │  z:2  tri-top   (flap — UNDER letter)   │
-     * │  z:4  .letter   (over flap, under sides)│
-     * │  z:6  tri-bottom / tri-left / tri-right │
-     * │  z:20 .seal                             │
-     * └─────────────────────────────────────────┘
+     * Z-INDEX MAP
+     *  z:1  env-base
+     *  z:2  tri-top  (flap — UNDER letter when open)
+     *  z:4  .letter
+     *  z:6  tri-bottom / tri-left / tri-right (OVER letter)
+     *  z:7  .env-folds (fold lines on top of everything)
+     *  z:20 .seal
      *
-     * The four triangles meet at the centre point (50%, 50%).
-     * top    : corners (0,0)  (100,0)  → apex  (50,50)
-     * bottom : corners (0,100)(100,100)→ apex  (50,50)
-     * left   : corners (0,0)  (0,100)  → apex  (50,50)
-     * right  : corners (100,0)(100,100)→ apex  (50,50)
+     * All triangles use the same --sage color.
+     * Fold lines are drawn by a separate SVG overlay.
      */
 
     /* ─── TOP FLAP ─────────────────────────────────────────── */
@@ -119,14 +110,11 @@
       transform-style: preserve-3d;
       transition: transform .9s cubic-bezier(.4,0,.2,1);
     }
-    /* front face */
     .tri-top::before {
-      background: var(--sage-dark);
+      background: var(--sage);
       clip-path: polygon(0% 0%, 100% 0%, 50% 50%);
       backface-visibility: hidden;
-      box-shadow: inset 0 -4px 12px rgba(0,0,0,.08);
     }
-    /* back face (revealed after flip) */
     .tri-top::after {
       content: '';
       position: absolute; inset: 0;
@@ -135,30 +123,39 @@
       backface-visibility: hidden;
       transform: rotateX(180deg);
     }
-    .envelope-wrap.opened .tri-top {
-      transform: rotateX(-180deg);
-    }
+    .envelope-wrap.opened .tri-top { transform: rotateX(-180deg); }
 
-    /* ─── BOTTOM TRIANGLE ──────────────────────────────────── */
+    /* ─── BOTTOM ────────────────────────────────────────────── */
     .tri-bottom { z-index: 6; }
     .tri-bottom::before {
-      background: var(--sage-light);
+      background: var(--sage);
       clip-path: polygon(0% 100%, 100% 100%, 50% 50%);
     }
 
-    /* ─── LEFT TRIANGLE ────────────────────────────────────── */
+    /* ─── LEFT ──────────────────────────────────────────────── */
     .tri-left { z-index: 6; }
     .tri-left::before {
-      background: var(--sage-mid);
+      background: var(--sage);
       clip-path: polygon(0% 0%, 0% 100%, 50% 50%);
     }
 
-    /* ─── RIGHT TRIANGLE ───────────────────────────────────── */
+    /* ─── RIGHT ─────────────────────────────────────────────── */
     .tri-right { z-index: 6; }
     .tri-right::before {
-      background: var(--sage-shadow);
+      background: var(--sage);
       clip-path: polygon(100% 0%, 100% 100%, 50% 50%);
     }
+
+    /* ─── FOLD LINES SVG OVERLAY ────────────────────────────── */
+    /* Drawn on top of all triangles so lines are always visible */
+    .env-folds {
+      position: absolute; inset: 0;
+      z-index: 7;
+      pointer-events: none;
+    }
+
+    /* Hide fold lines on the flap area when it's flipped open */
+    .envelope-wrap.opened .env-folds .fold-top { opacity: 0; transition: opacity .2s; }
 
     /* ─── LETTER ───────────────────────────────────────────── */
     .letter {
@@ -179,15 +176,15 @@
       justify-content: center;
       overflow: hidden;
     }
-    .envelope-wrap.opened .letter {
-      visibility: visible;
-      transform: translateY(-60%);
-    }
     .letter-label {
       font-family: 'Cinzel', serif; font-size: .68rem;
       letter-spacing: .25em; color: var(--bronze-dark);
       text-transform: uppercase; opacity: 0;
       transition: opacity .4s .7s;
+    }
+    .envelope-wrap.opened .letter {
+      visibility: visible;
+      transform: translateY(-60%);
     }
     .envelope-wrap.opened .letter-label { opacity: 1; }
 
@@ -232,6 +229,7 @@
       display: flex; align-items: center; justify-content: space-between;
       padding: .9rem 1.4rem;
       border-bottom: 1px solid rgba(160,140,110,.2); background: var(--cream);
+      flex-shrink: 0;
     }
     .modal-title {
       font-family: 'Cinzel', serif; font-size: .75rem;
@@ -244,48 +242,40 @@
       transition: transform .2s, color .2s;
     }
     .modal-close:hover { transform: rotate(90deg); color: var(--bronze-dark); }
-    .pdf-frame { flex:1; border:none; width:100%; }
-
-    .pdf-placeholder {
-      flex:1; display:flex; flex-direction:column;
-      align-items:center; justify-content:center;
-      gap:1.2rem; padding:2rem; text-align:center;
-    }
-    .pdf-placeholder .monogram {
-      font-family:'Cinzel',serif; font-size:3.5rem;
-      font-weight:500; letter-spacing:.12em; color:var(--bronze);
-    }
-    .pdf-placeholder p {
-      font-size:1.05rem; font-style:italic; color:var(--ink);
-      opacity:.6; max-width:320px; line-height:1.7;
-    }
-    .pdf-placeholder .instructions {
-      font-family:'Cinzel',serif; font-size:.65rem;
-      letter-spacing:.18em; text-transform:uppercase;
-      color:var(--bronze); opacity:.7;
-      border:1px solid var(--bronze-light); padding:.6rem 1.2rem; border-radius:2px;
-    }
   </style>
 </head>
 <body>
 
   <div class="envelope-wrap" id="envelopeWrap" onclick="openEnvelope()">
 
-    <!-- z:1  Background rectangle (colour + shadow) -->
+    <!-- z:1 Background -->
     <div class="env-base"></div>
 
-    <!-- z:2  Top flap — sits UNDER the letter when open -->
+    <!-- z:2 Top flap (UNDER letter) -->
     <div class="tri tri-top"></div>
 
-    <!-- z:4  Letter — over the flap, under the side triangles -->
+    <!-- z:4 Letter -->
     <div class="letter">
       <span class="letter-label">Apri l'invito</span>
     </div>
 
-    <!-- z:6  Bottom / Left / Right — always OVER the letter -->
+    <!-- z:6 Bottom / Left / Right (OVER letter) -->
     <div class="tri tri-bottom"></div>
     <div class="tri tri-left"></div>
     <div class="tri tri-right"></div>
+
+    <!-- z:7 Fold lines SVG — drawn over all triangles -->
+    <svg class="env-folds" viewBox="0 0 100 132" preserveAspectRatio="none"
+         xmlns="http://www.w3.org/2000/svg">
+      <!-- diagonal from top-left to centre -->
+      <line class="fold-top" x1="0" y1="0"   x2="50" y2="66" stroke="rgba(0,0,0,.12)" stroke-width=".4"/>
+      <!-- diagonal from top-right to centre -->
+      <line class="fold-top" x1="100" y1="0" x2="50" y2="66" stroke="rgba(0,0,0,.12)" stroke-width=".4"/>
+      <!-- diagonal from bottom-left to centre -->
+      <line x1="0"   y1="132" x2="50" y2="66" stroke="rgba(0,0,0,.10)" stroke-width=".4"/>
+      <!-- diagonal from bottom-right to centre -->
+      <line x1="100" y1="132" x2="50" y2="66" stroke="rgba(0,0,0,.10)" stroke-width=".4"/>
+    </svg>
 
     <!-- z:20 Wax seal -->
     <div class="seal">
@@ -325,14 +315,12 @@
         <span class="modal-title">Invito di Matrimonio</span>
         <button class="modal-close" onclick="closeModal()" aria-label="Chiudi">×</button>
       </div>
-      <!-- PDF.js renderer — si adatta al viewport mobile -->
       <div id="pdfContainer" style="flex:1; overflow-y:auto; overflow-x:hidden; background:#e8e4dc; display:flex; flex-direction:column; align-items:center; gap:8px; padding:8px 0;"></div>
     </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
-    // PDF.js setup
     pdfjsLib.GlobalWorkerOptions.workerSrc =
       'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
@@ -359,14 +347,11 @@
     async function renderPDF() {
       const container = document.getElementById('pdfContainer');
       const pdf = await pdfjsLib.getDocument('invito.pdf').promise;
+      const dpr = window.devicePixelRatio || 1;
 
       for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
         const page = await pdf.getPage(pageNum);
-
-        // render at device pixel ratio for crisp text on retina
-        const dpr = window.devicePixelRatio || 1;
         const containerWidth = container.clientWidth || window.innerWidth;
-
         const viewport = page.getViewport({ scale: 1 });
         const scale = (containerWidth / viewport.width) * dpr;
         const scaledViewport = page.getViewport({ scale });
@@ -374,11 +359,9 @@
         const canvas = document.createElement('canvas');
         canvas.width  = scaledViewport.width;
         canvas.height = scaledViewport.height;
-        // display size = container width, height proportional
         canvas.style.width  = containerWidth + 'px';
         canvas.style.height = (scaledViewport.height / dpr) + 'px';
         canvas.style.display = 'block';
-
         container.appendChild(canvas);
 
         await page.render({
