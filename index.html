@@ -325,13 +325,19 @@
         <span class="modal-title">Invito di Matrimonio</span>
         <button class="modal-close" onclick="closeModal()" aria-label="Chiudi">×</button>
       </div>
-      <!-- PDF dell'invito -->
-      <iframe class="pdf-frame" src="invito.pdf#toolbar=0&navpanes=0&scrollbar=0"></iframe>
+      <!-- PDF.js renderer — si adatta al viewport mobile -->
+      <div id="pdfContainer" style="flex:1; overflow-y:auto; overflow-x:hidden; background:#e8e4dc; display:flex; flex-direction:column; align-items:center; gap:8px; padding:8px 0;"></div>
     </div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
+    // PDF.js setup
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
     let opened = false;
+    let pdfRendered = false;
 
     function openEnvelope() {
       if (opened) return;
@@ -341,8 +347,46 @@
       setTimeout(showModal, 1300);
     }
 
-    function showModal()  { document.getElementById('modalBg').classList.add('visible'); }
-    function closeModal() { document.getElementById('modalBg').classList.remove('visible'); }
+    function showModal() {
+      document.getElementById('modalBg').classList.add('visible');
+      if (!pdfRendered) { renderPDF(); pdfRendered = true; }
+    }
+
+    function closeModal() {
+      document.getElementById('modalBg').classList.remove('visible');
+    }
+
+    async function renderPDF() {
+      const container = document.getElementById('pdfContainer');
+      const pdf = await pdfjsLib.getDocument('invito.pdf').promise;
+
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        const page = await pdf.getPage(pageNum);
+
+        // render at device pixel ratio for crisp text on retina
+        const dpr = window.devicePixelRatio || 1;
+        const containerWidth = container.clientWidth || window.innerWidth;
+
+        const viewport = page.getViewport({ scale: 1 });
+        const scale = (containerWidth / viewport.width) * dpr;
+        const scaledViewport = page.getViewport({ scale });
+
+        const canvas = document.createElement('canvas');
+        canvas.width  = scaledViewport.width;
+        canvas.height = scaledViewport.height;
+        // display size = container width, height proportional
+        canvas.style.width  = containerWidth + 'px';
+        canvas.style.height = (scaledViewport.height / dpr) + 'px';
+        canvas.style.display = 'block';
+
+        container.appendChild(canvas);
+
+        await page.render({
+          canvasContext: canvas.getContext('2d'),
+          viewport: scaledViewport
+        }).promise;
+      }
+    }
 
     document.getElementById('modalBg').addEventListener('click', function(e) {
       if (e.target === this) closeModal();
