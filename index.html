@@ -363,6 +363,10 @@
       opened = true;
       document.getElementById('envelopeWrap').classList.add('opened');
       document.getElementById('hint').classList.add('hide');
+      document.querySelector('.tri-top').style.zIndex = '15';
+      setTimeout(() => {
+        document.querySelector('.tri-top').style.zIndex = '10';
+      }, 1200);
       setTimeout(showModal, 2600);
     }
 
